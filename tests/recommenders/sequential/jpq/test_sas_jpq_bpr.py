@@ -36,7 +36,7 @@ class TestSASRecJPQBPR(unittest.TestCase):
             recommender.add_action(action)
         recommender.rebuild_model()
         recs = recommender.recommend(USER_ID, 10)
-        catalog = get_movies_catalog()
+        catalog, text, title = get_movies_catalog()
         for rec in recs:
             print(catalog.get_item(rec[0]), "\t", rec[1])
 

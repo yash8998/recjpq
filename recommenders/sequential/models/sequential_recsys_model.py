@@ -25,7 +25,7 @@ class SequentialDataParameters(object):
 
 class SequentialRecsysModel(tf.keras.Model):
     @classmethod
-    def get_model_config_class() -> Type[SequentialModelConfig]:
+    def get_model_config_class(cls) -> Type[SequentialModelConfig]:
         raise NotImplementedError()
 
     def __init__(self, model_parameters: SequentialModelConfig, data_parameters: SequentialDataParameters, *args, **kwargs):

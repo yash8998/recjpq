@@ -29,7 +29,7 @@ class SequentialRecommender(Recommender):
     def add_action(self, action):
         user_id_internal = self.users.get_id(action.user_id)
         action_id_internal = self.items.get_id(action.item_id)
-        self.user_actions[user_id_internal].append((action.timestamp, action_id_internal))
+        self.user_actions[user_id_internal].append((action.timestamp, action_id_internal, action.data["genres"], action.data["title"]))
 
     def sort_actions(self):
         for user_id in self.user_actions:
