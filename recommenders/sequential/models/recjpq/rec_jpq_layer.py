@@ -5,6 +5,7 @@ from aprec.recommenders.sequential.models.recjpq.centroid_assignment_strategies.
 from aprec.recommenders.sequential.models.recjpq.centroid_assignment_strategies.qr_strategy import QuotientRemainder
 from aprec.recommenders.sequential.models.recjpq.centroid_assignment_strategies.random_strategy import RandomAssignmentStrategy
 from .centroid_assignment_strategies.bpr_with_context import BPRWithContextAssignmentStrategy
+from .centroid_assignment_strategies.bpr_with_context_pca import BPRWithContextAssignmentStrategyPCA
 from .centroid_assignment_strategies.bpr_with_context_sep_codes import BPRWithContextSegregationAssignmentStrategy
 from .centroid_assignment_strategies.centroid_strategy import CentroidAssignmentStragety
 from .centroid_assignment_strategies.svd_strategy import SVDAssignmentStrategy
@@ -22,6 +23,8 @@ def get_codes_strategy(codes_strategy, item_code_bytes, num_items) -> CentroidAs
         return BPRWithContextAssignmentStrategy(item_code_bytes, num_items)
     if codes_strategy == "bpr_with_content2":
         return BPRWithContextSegregationAssignmentStrategy(item_code_bytes, num_items)
+    if codes_strategy == "bpr_with_content_pca":
+        return BPRWithContextAssignmentStrategyPCA(item_code_bytes, num_items)
 
     
         
@@ -52,6 +55,7 @@ class ItemCodeLayer(tf.keras.layers.Layer):
         self.num_items = num_items
 
     def assign_codes(self, train_users):
+        print(train_users[0:5])
         codes = self.item_codes_strategy.assign(train_users)
         self.item_codes.assign(codes)
 

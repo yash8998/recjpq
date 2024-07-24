@@ -34,6 +34,7 @@ class TestSASRecJPQBPR(unittest.TestCase):
         recommender = FilterSeenRecommender(recommender)
         for action in generator_limit(get_movielens20m_actions(), 10000):
             recommender.add_action(action)
+            
         recommender.rebuild_model()
         recs = recommender.recommend(USER_ID, 10)
         catalog, text, title = get_movies_catalog()

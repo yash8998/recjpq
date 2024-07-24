@@ -4,6 +4,7 @@ import os
 import pickle
 from aprec.datasets.bert4rec_datasets import get_bert4rec_dataset
 from aprec.datasets.booking import get_booking_dataset
+from aprec.datasets.movielens1m import get_movielens1m_actions
 from aprec.datasets.movielens100k import get_movielens100k_actions
 from aprec.datasets.movielens20m import get_movielens20m_actions
 from aprec.datasets.movielens25m import get_movielens25m_actions

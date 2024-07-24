@@ -154,7 +154,7 @@ class SASJPQConfig(SequentialModelConfig):
                 vanilla_bce_t = 0.0,
                 vanilla_target_sampler = 'random',
                 full_target = False,
-                centroid_strategy = 'svd',
+                centroid_strategy = 'bpr_with_content_pca',
                 pq_m = 4,
                 ): 
         self.output_layer_activation=output_layer_activation

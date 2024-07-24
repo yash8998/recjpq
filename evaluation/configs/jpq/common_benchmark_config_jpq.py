@@ -66,8 +66,10 @@ def sasrec_style_model(model_config, sequence_splitter,
 
 recommenders_list = []
 
-embedding_sizes = [1, 2, 4, 8, 16, 32, 64, 128, 256, 512]
-pq_ms=  [1, 2, 4, 8, 16, 32, 64, 128, 256, 512]
+# embedding_sizes = [1, 2, 4, 8, 16, 32, 64, 128, 256, 512]
+# pq_ms=  [1, 2, 4, 8, 16, 32, 64, 128, 256, 512]
+embedding_sizes = [64, 128, 256, 512]
+pq_ms=  [4, 8, 16, 32, 64]
 for emb in embedding_sizes:
     recommenders_list.append((f"sas-emb:{emb}", lambda e=emb: vanilla_sasrec(embedding_size=e)))
     for m in pq_ms:
