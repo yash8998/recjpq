@@ -52,7 +52,7 @@ class BPRWithContextAssignmentStrategy(CentroidAssignmentStragety):
             #title_embeddings[item_id] = self.get_embeddings(movie_titles[item_id])
 
         print("Fitting MF-BPR for initial centroids assignments")
-        model = LightFM(no_components=self.item_code_bytes, loss='bpr')
+        model = LightFM(no_components=self.item_code_bytes/2, loss='bpr')
         model.fit(matr, epochs=20, verbose=True, num_threads=20)
         item_embeddings = model.get_item_representations()[1].T
         genre_embeddings = genre_embeddings.T
