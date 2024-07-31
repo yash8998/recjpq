@@ -10,9 +10,8 @@ class BPRWithContextAssignmentStrategyPCA(CentroidAssignmentStragety):
 
     def get_embeddings(self, genres):
         genre_text = ' '.join(genres)
-        inputs = self.tokenizer(genre_text, return_tensors='pt')
-        outputs = self.model(**inputs)
-        return outputs.last_hidden_state.mean(dim=1).squeeze().detach().numpy()
+        embeddings = self.model.encode(genre_text)
+        return embeddings
 
     def assign(self, train_users):
         rows = []
@@ -26,7 +25,7 @@ class BPRWithContextAssignmentStrategyPCA(CentroidAssignmentStragety):
                 vals.append(1)
 
         matr = csr_matrix((vals, (rows, cols)), shape=(len(train_users), self.num_items+2))
-
+        print(self.num_items+2)
         unique_items = set(cols)  # Get unique item IDs
         item_to_genre = {}  # Mapping from item ID to genre list
         movie_titles = {}

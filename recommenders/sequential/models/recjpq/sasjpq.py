@@ -103,7 +103,7 @@ class SASJPQModel(SequentialRecsysModel):
         minus_negative_logprobs = tf.reduce_sum(tf.math.softplus(negative_logits) , axis=-1)
         minus_average_logprobs = (minus_positive_logprobs + minus_negative_logprobs) / (self.model_parameters.vanilla_num_negatives +1)
         mask = 1 - tf.cast(input_ids == self.data_parameters.num_items, 'float32')
-        result = tf.reduce_sum(mask*minus_average_logprobs)/tf.reduce_sum(mask)
+        result = tf.math.divide_no_nan(tf.reduce_sum(mask*minus_average_logprobs),tf.reduce_sum(mask))
         return result
     
     def score_all_items(self, inputs):
@@ -154,7 +154,7 @@ class SASJPQConfig(SequentialModelConfig):
                 vanilla_bce_t = 0.0,
                 vanilla_target_sampler = 'random',
                 full_target = False,
-                centroid_strategy = 'bpr_with_content_pca',
+                centroid_strategy = 'one_hot',
                 pq_m = 4,
                 ): 
         self.output_layer_activation=output_layer_activation
