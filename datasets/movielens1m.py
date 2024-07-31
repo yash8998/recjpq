@@ -7,6 +7,7 @@ from aprec.utils.os_utils import get_dir, console_logging, shell
 from aprec.api.action import Action
 from aprec.datasets.download_file import download_file
 from requests.exceptions import ConnectionError
+import requests
 
 DATASET_NAME = 'ml-1m'
 MOVIELENS_URL = "http://files.grouplens.org/datasets/movielens/{}.zip".format(DATASET_NAME)
@@ -17,6 +18,9 @@ MOVIELENS_FILE_ABSPATH = os.path.join(get_dir(), MOVIELENS_DIR, MOVIELENS_FILE)
 MOVIELENS_DIR_ABSPATH = os.path.join(get_dir(), MOVIELENS_DIR)
 RATINGS_FILE = os.path.join(MOVIELENS_DIR_ABSPATH, 'ratings.dat')
 MOVIES_FILE = os.path.join(MOVIELENS_DIR_ABSPATH, 'movies.dat')
+TMDB_API_KEY = 'e28351a5ba65201ad806d86aa3d4dbde'
+TMDB_SEARCH_URL = 'https://api.themoviedb.org/3/search/movie?query={}&year={}&api_key=' + TMDB_API_KEY
+TMDB_MOVIE_URL = 'https://api.themoviedb.org/3/movie/{}?api_key=' + TMDB_API_KEY
 
 
 def extract_movielens_dataset():
@@ -51,6 +55,38 @@ def get_genre_title_dict():
         title_dict[movie_id] = title
     return genre_dict, title_dict
 
+def search_movie_tmdb(movie_name, movie_year):
+    response = requests.get(TMDB_SEARCH_URL.format(movie_name, movie_year))
+    if response.status_code == 200:
+        search_results = response.json()
+        if search_results['results']:
+            return search_results['results'][0]['id']
+    return None
+
+def get_tmdb_genres(movie_names_with_years):
+    genres_dict = {}
+    for movie_name_with_year in movie_names_with_years:
+        movie_name, movie_year = parse_movie_name_and_year(movie_name_with_year)
+        movie_id = search_movie_tmdb(movie_name, movie_year)
+        if movie_id:
+            response = requests.get(TMDB_MOVIE_URL.format(movie_id))
+            if response.status_code == 200:
+                movie_data = response.json()
+                genres = [genre['name'] for genre in movie_data.get('genres', [])]
+                genres_dict[movie_name_with_year] = genres if genres else ["Unknown"]
+            else:
+                genres_dict[movie_name_with_year] = ["Unknown"]
+        else:
+            genres_dict[movie_name_with_year] = ["Unknown"]
+    return genres_dict
+
+def parse_movie_name_and_year(movie_name_with_year):
+    # Assuming the movie name is followed by the year in parentheses
+    movie_name, movie_year = movie_name_with_year.rsplit(' ', 1)
+    movie_year = movie_year.strip('()')
+    return movie_name, movie_year
+
+
 
 def get_movielens1m_actions(min_rating=0.0):
     prepare_data()
@@ -66,8 +102,9 @@ def get_movielens1m_actions(min_rating=0.0):
                 rating = float(rating_str)
                 timestamp = int(timestamp_str)
                 if rating >= min_rating:
-                    genres = movie_genres.get(movie_id, [])
+                    
                     movie_title = movie_titles.get(movie_id, [])
+                    genres = get_tmdb_genres([movie_title])
 
                     yield Action(user_id, movie_id, timestamp,
                                  {"rating": rating, "genres": genres, "title": movie_title})
