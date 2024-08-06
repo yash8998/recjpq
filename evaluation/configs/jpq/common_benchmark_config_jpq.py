@@ -29,7 +29,7 @@ def sasjpq(embedding_size, m, num_samples=1):
     return sasrec_style_model(model_config, 
             ShiftedSequenceSplitter,
             target_builder=lambda: PositivesSequenceTargetBuilder(SEQUENCE_LENGTH),
-            batch_size=128)
+            batch_size=64)
 
 def vanilla_sasrec(embedding_size, loss='bce', num_samples=1, batch_size=128):
     from aprec.recommenders.sequential.models.sasrec.sasrec import SASRecConfig
@@ -43,7 +43,7 @@ def vanilla_sasrec(embedding_size, loss='bce', num_samples=1, batch_size=128):
 def sasrec_style_model(model_config, sequence_splitter, 
                 target_builder,
                 max_epochs=10000, 
-                batch_size=128,
+                batch_size=64,
                 ):
     from aprec.recommenders.sequential.sequential_recommender import SequentialRecommender
     from aprec.recommenders.sequential.sequential_recommender_config import SequentialRecommenderConfig

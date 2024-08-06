@@ -11,10 +11,13 @@ from .centroid_assignment_strategies.content_embeddings_strategy import ContentE
 from .centroid_assignment_strategies.bpr_with_context_sep_codes import BPRWithContextSegregationAssignmentStrategy
 from .centroid_assignment_strategies.centroid_strategy import CentroidAssignmentStragety
 from .centroid_assignment_strategies.svd_strategy import SVDAssignmentStrategy
+from .centroid_assignment_strategies.svd_with_content_strategy import SVDWithContentAssignmentStrategy
 
 def get_codes_strategy(codes_strategy, item_code_bytes, num_items) -> CentroidAssignmentStragety:
     if codes_strategy == "svd":
         return SVDAssignmentStrategy(item_code_bytes, num_items)
+    if codes_strategy == "svd_with_content":
+        return SVDWithContentAssignmentStrategy(item_code_bytes, num_items)
     if codes_strategy == "bpr":
         return BPRAssignmentStrategy(item_code_bytes, num_items)
     if codes_strategy == "random":

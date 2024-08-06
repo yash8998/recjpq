@@ -154,7 +154,7 @@ class SASJPQConfig(SequentialModelConfig):
                 vanilla_bce_t = 0.0,
                 vanilla_target_sampler = 'random',
                 full_target = False,
-                centroid_strategy = 'bpr_with_content_pca',
+                centroid_strategy = 'bpr',
                 pq_m = 4,
                 ): 
         self.output_layer_activation=output_layer_activation
@@ -174,7 +174,7 @@ class SASJPQConfig(SequentialModelConfig):
         self.vanilla_target_sampler = vanilla_target_sampler
         self.vanilla_bce_t = vanilla_bce_t
         self.pq_m = pq_m
-        self.centroid_strategy = 'bpr_with_content_pca'
+        self.centroid_strategy = 'bpr'
 
     def as_dict(self):
         result = self.__dict__

@@ -1,6 +1,8 @@
 from scipy.sparse import csr_matrix
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import KBinsDiscretizer, OneHotEncoder
+from .centroid_strategy import CentroidAssignmentStragety
+from lightfm import LightFM
 import numpy as np
 
 class BPRWithOneHotAssignmentStrategyPCA(CentroidAssignmentStragety):
