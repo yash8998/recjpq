@@ -50,7 +50,7 @@ def sasrec_style_model(model_config, sequence_splitter,
 
     config = SequentialRecommenderConfig(model_config,                       
                                 train_epochs=max_epochs,
-                                early_stop_epochs=200,
+                                early_stop_epochs=150,
                                 batch_size=batch_size,
                                 eval_batch_size=256, #no need for gradients, should work ok
                                 validation_batch_size=256,
@@ -68,7 +68,7 @@ recommenders_list = []
 
 # embedding_sizes = [1, 2, 4, 8, 16, 32, 64, 128, 256, 512]
 # pq_ms=  [1, 2, 4, 8, 16, 32, 64, 128, 256, 512]
-embedding_sizes = [64, 128, 256, 512]
+embedding_sizes = [128, 256, 512]
 pq_ms=  [4, 8, 16, 32, 64]
 for emb in embedding_sizes:
     recommenders_list.append((f"sas-emb:{emb}", lambda e=emb: vanilla_sasrec(embedding_size=e)))

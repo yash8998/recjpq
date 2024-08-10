@@ -33,7 +33,6 @@ class BPRWithContextAssignmentStrategyPCA(CentroidAssignmentStragety):
         # Populate item_to_genre with the genres for each unique item
         for user in train_users:
             for interaction in user:
-                print(interaction)
                 item_id = interaction[1]
                 genres = interaction[2]
                 #titles = interaction[3]
@@ -50,16 +49,12 @@ class BPRWithContextAssignmentStrategyPCA(CentroidAssignmentStragety):
             genre_embeddings[item_id] = genre_emb
             #title_embeddings[item_id] = self.get_embeddings(movie_titles[item_id])
 
-        # Apply PCA to reduce dimensionality of textual embeddings
-        pca = PCA(n_components=2)
         #combined_text_embeddings = np.vstack((genre_embeddings, title_embeddings))
-        reduced_text_embeddings = pca.fit_transform(genre_embeddings)
-
-        genre_embeddings = reduced_text_embeddings[:self.num_items+2]
+        #genre_embeddings = reduced_text_embeddings[:self.num_items+2]
         #title_embeddings = reduced_text_embeddings[self.num_items+2:]
 
         print("Fitting MF-BPR for initial centroids assignments")
-        model = LightFM(no_components=self.item_code_bytes-2, loss='bpr')
+        model = LightFM(no_components=self.item_code_bytes//2, loss='bpr')
         model.fit(matr, epochs=20, verbose=True, num_threads=20)
         item_embeddings = model.get_item_representations()[1].T
         genre_embeddings = genre_embeddings.T

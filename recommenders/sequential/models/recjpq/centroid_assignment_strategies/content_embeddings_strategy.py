@@ -33,7 +33,6 @@ class ContentEmbeddingsStrategyPCA(CentroidAssignmentStragety):
         # Populate item_to_genre with the genres for each unique item
         for user in train_users:
             for interaction in user:
-                print(interaction)
                 item_id = interaction[1]
                 genres = interaction[2]
                 #titles = interaction[3]
