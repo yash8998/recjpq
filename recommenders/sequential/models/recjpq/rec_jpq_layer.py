@@ -9,11 +9,13 @@ from .centroid_assignment_strategies.bpr_with_context_pca import BPRWithContextA
 from .centroid_assignment_strategies.bpr_with_one_hot import BPRWithOneHotAssignmentStrategyPCA
 from .centroid_assignment_strategies.content_embeddings_strategy import ContentEmbeddingsStrategyPCA
 from .centroid_assignment_strategies.bpr_with_context_sep_codes import BPRWithContextSegregationAssignmentStrategy
+from .centroid_assignment_strategies.bpr_with_all_content import BPRWithAllContentAssignmentStrategy
 from .centroid_assignment_strategies.centroid_strategy import CentroidAssignmentStragety
 from .centroid_assignment_strategies.svd_strategy import SVDAssignmentStrategy
 from .centroid_assignment_strategies.svd_with_content_strategy import SVDWithContentAssignmentStrategy
 
 def get_codes_strategy(codes_strategy, item_code_bytes, num_items) -> CentroidAssignmentStragety:
+    print(codes_strategy)
     if codes_strategy == "svd":
         return SVDAssignmentStrategy(item_code_bytes, num_items)
     if codes_strategy == "svd_with_content":
@@ -34,6 +36,8 @@ def get_codes_strategy(codes_strategy, item_code_bytes, num_items) -> CentroidAs
         return ContentEmbeddingsStrategyPCA(item_code_bytes, num_items)
     if codes_strategy == "one_hot":
         return BPRWithOneHotAssignmentStrategyPCA(item_code_bytes, num_items)
+    if codes_strategy == "bpr_with_all_content":
+        return BPRWithAllContentAssignmentStrategy(item_code_bytes, num_items)
 
     
         
@@ -60,6 +64,7 @@ class ItemCodeLayer(tf.keras.layers.Layer):
                                                                  self.sub_embedding_size)),
                                      name="ItemCodes/centroids")
         self.item_codes_strategy = get_codes_strategy(codes_strategy, self.item_code_bytes, num_items)
+        print(self.item_codes_strategy)
         self.sequence_length = sequence_length
         self.num_items = num_items
 

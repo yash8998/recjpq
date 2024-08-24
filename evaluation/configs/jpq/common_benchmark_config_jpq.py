@@ -69,9 +69,9 @@ recommenders_list = []
 # embedding_sizes = [1, 2, 4, 8, 16, 32, 64, 128, 256, 512]
 # pq_ms=  [1, 2, 4, 8, 16, 32, 64, 128, 256, 512]
 embedding_sizes = [128, 256, 512]
-pq_ms=  [4, 8, 16, 32, 64]
+pq_ms=  [8, 16, 32, 64]
 for emb in embedding_sizes:
-    recommenders_list.append((f"sas-emb:{emb}", lambda e=emb: vanilla_sasrec(embedding_size=e)))
+    #recommenders_list.append((f"sas-emb:{emb}", lambda e=emb: vanilla_sasrec(embedding_size=e)))
     for m in pq_ms:
         if m <= emb:
             recommenders_list.append((f"sasrjpq-emb:{emb}-pqm:{m}", lambda e=emb, pqm=m: sasjpq(embedding_size=e, m=pqm)))

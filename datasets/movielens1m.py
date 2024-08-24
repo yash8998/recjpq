@@ -102,10 +102,8 @@ def get_movielens1m_actions(min_rating=0.0):
                 rating = float(rating_str)
                 timestamp = int(timestamp_str)
                 if rating >= min_rating:
-                    
                     movie_title = movie_titles.get(movie_id, [])
                     genres = get_tmdb_genres([movie_title])
-
                     yield Action(user_id, movie_id, timestamp,
                                  {"rating": rating, "genres": genres, "title": movie_title})
 
