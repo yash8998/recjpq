@@ -1,33 +1,23 @@
-# RecJPQ
+# Overview
 
-This is an official repository for the WSDM 2024 paper "RecJPQ: Training Large-Catalogue Sequential Recommenders", co-authored by [Aleksandr Petrov](https://asash.github.io) and [Craig Macdonald](https://www.dcs.gla.ac.uk/~craigm/)
+This project explores the enhancement of the RecJPQ model by integrating content embeddings to improve recommendation accuracy in sequential recommendation tasks. By leveraging both collaborative filtering and content-based filtering, the hybrid system aims to overcome the limitations of traditional recommendation models, such as the cold start problem and data sparsity.
 
-RecJPQ replaces item embeddings layer in recommender systems. By decomposing atomic item id into limited number of sub-item ids, it allows to reduce memory consumption of the model by a large factor. For example, we were able to reduce memory consumption of the SASRec model by a factor of 47x withouth compromising effectiveness. 
+# Features
+Hybrid Embeddings: Combines collaborative and content embeddings to create a more comprehensive item representation.
+Efficient Embedding Compression: Utilizes the RecJPQ model, which adapts Joint Product Quantization (JPQ) for sequential recommendations, reducing the computational burden.
+Sequential Recommendation: Supports advanced sequential recommendation models like SASRec and BERT4Rec, enhanced with compressed hybrid embeddings.
+Scalability: Designed to handle large-scale item catalogs by compressing high-dimensional embeddings into low-dimensional representations.
 
-More details in the paper: https://arxiv.org/abs/2312.06165
+# Datasets
+The project primarily uses the MovieLens 1M dataset, which includes:
 
-
-If you use any part of the code, please consider citing us: 
-
-```
-@inproceedings{petrov2024recjpq,
-  author = {Petrov, Aleksandr V. and Macdonald, Craig},
-  title = {RecJPQ: Training Large-Catalogue Sequential Recommenders},
-  year = {2024},
-  doi = {10.1145/3616855.3635821},
-  booktitle = {Proceedings of the 17th ACM International Conference on Web Search and Data Mining},
-  pages = {538–547},
-  location = {Merida, Mexico},
-series = {WSDM '24}
-}
-```
-
-# Poster
-![Poster](recjpq_training_large_catalogue_sequential_1.png)
+1 million ratings from 6,000 users on 4,000 movies.
+User demographic information and movie metadata (e.g., titles, genres).
+Additional genre data sourced from The Movie Database (TMDB) to enrich content embeddings.
 
 # Instruction
 
-The code is based on  our aprec framework. Please clone this code and follow the original instructions https://github.com/asash/bert4rec_repro to setup the environment. 
+The code is based on the aprec framework by Petrov & Macdonald, (2023) . Please clone this code and follow the original instructions https://github.com/asash/bert4rec_repro to setup the environment. 
 
 The code for the RecJPQ versions of the model described in the paper is located in the folder recommenders/sequential/models/recjpq. 
 Configuration files can be found in evaluation/configs/jpq
